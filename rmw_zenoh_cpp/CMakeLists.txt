@@ -13,7 +13,6 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-
 find_package(ament_index_cpp REQUIRED)
 find_package(fastcdr CONFIG REQUIRED)
 find_package(rcpputils REQUIRED)
@@ -21,11 +20,9 @@ find_package(rcutils REQUIRED)
 find_package(rosidl_typesupport_fastrtps_c REQUIRED)
 find_package(rosidl_typesupport_fastrtps_cpp REQUIRED)
 find_package(rmw REQUIRED)
-find_package(zenoh_c_vendor REQUIRED)
-find_package(zenohc_debug QUIET)
-if(NOT zenohc_debug_FOUND)
-  find_package(zenohc REQUIRED)
-endif()
+
+# Include Zenoh-C headers
+include_directories(${ZENOH_INCLUDE_DIR})
 
 add_library(rmw_zenoh_cpp SHARED
   src/detail/attachment_helpers.cpp
@@ -65,7 +62,7 @@ target_link_libraries(rmw_zenoh_cpp
     rosidl_typesupport_fastrtps_c::rosidl_typesupport_fastrtps_c
     rosidl_typesupport_fastrtps_cpp::rosidl_typesupport_fastrtps_cpp
     rmw::rmw
-    zenohc::lib
+    ${ZENOH_LIBRARY}  # Link against the Zenoh-C library
 )
 
 configure_rmw_library(rmw_zenoh_cpp)
@@ -114,7 +111,7 @@ target_link_libraries(rmw_zenohd
     rcutils::rcutils
     rcpputils::rcpputils
     rmw::rmw
-    zenohc::lib
+    ${ZENOH_LIBRARY}  # Link against the Zenoh-C library
 )
 
 install(
