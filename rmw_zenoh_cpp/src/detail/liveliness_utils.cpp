@@ -241,13 +241,13 @@ std::optional<rmw_qos_profile_t> keyexpr_to_qos(const std::string & keyexpr)
     return std::nullopt;
   }
 
-  // Helper function to convert string to size_t.
-  auto str_to_size_t =
-    [](const std::string & str) -> std::optional<size_t>
+  // Helper function to convert string to uint64_t.
+  auto str_to_uint64_t =
+    [](const std::string & str) -> std::optional<uint64_t>
     {
       errno = 0;
       char * endptr;
-      size_t num = strtoul(str.c_str(), &endptr, 10);
+      uint64_t num = strtoull(str.c_str(), &endptr, 10);
       if (endptr == str.c_str()) {
         // No values were converted, this is an error
         RMW_SET_ERROR_MSG("no valid numbers available");
@@ -265,13 +265,14 @@ std::optional<rmw_qos_profile_t> keyexpr_to_qos(const std::string & keyexpr)
       return num;
     };
 
-  const auto maybe_depth = str_to_size_t(history_parts[1]);
-  const auto maybe_deadline_s = str_to_size_t(deadline_parts[0]);
-  const auto maybe_deadline_ns = str_to_size_t(deadline_parts[1]);
-  const auto maybe_lifespan_s = str_to_size_t(lifespan_parts[0]);
-  const auto maybe_lifespan_ns = str_to_size_t(lifespan_parts[1]);
-  const auto maybe_liveliness_s = str_to_size_t(liveliness_parts[1]);
-  const auto maybe_liveliness_ns = str_to_size_t(liveliness_parts[2]);
+  const auto maybe_depth = str_to_uint64_t(history_parts[1]);
+  const auto maybe_deadline_s = str_to_uint64_t(deadline_parts[0]);
+  const auto maybe_deadline_ns = str_to_uint64_t(deadline_parts[1]);
+  const auto maybe_lifespan_s = str_to_uint64_t(lifespan_parts[0]);
+  const auto maybe_lifespan_ns = str_to_uint64_t(lifespan_parts[1]);
+  const auto maybe_liveliness_s = str_to_uint64_t(liveliness_parts[1]);
+  const auto maybe_liveliness_ns = str_to_uint64_t(liveliness_parts[2]);
+
   if (maybe_depth == std::nullopt ||
     maybe_deadline_s == std::nullopt ||
     maybe_deadline_ns == std::nullopt ||
