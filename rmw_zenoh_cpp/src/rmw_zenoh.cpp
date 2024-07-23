@@ -330,6 +330,12 @@ rmw_create_node(
   return node;
 }
 
+rmw_ret_t
+rmw_notify_participant_dynamic_network_interface(rmw_context_t * context)
+{
+  return RMW_RET_OK;
+}
+
 //==============================================================================
 /// Finalize a given node handle, reclaim the resources, and deallocate the node handle.
 rmw_ret_t
