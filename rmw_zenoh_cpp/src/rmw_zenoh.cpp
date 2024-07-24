@@ -336,6 +336,14 @@ rmw_notify_participant_dynamic_network_interface(rmw_context_t * context)
   return RMW_RET_OK;
 }
 
+rmw_ret_t
+rmw_publisher_count_non_local_matched_subscriptions(
+  const rmw_publisher_t * publisher,
+  size_t * non_local_subscription_count)
+{
+  return RMW_RET_OK;
+}
+
 //==============================================================================
 /// Finalize a given node handle, reclaim the resources, and deallocate the node handle.
 rmw_ret_t
